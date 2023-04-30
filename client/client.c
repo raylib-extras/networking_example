@@ -63,7 +63,9 @@ int main()
 
 	// start network connection
 	bool connected = false;
-	Connect();
+
+	// if you want to connect to a server on another machine, change this, or ask the user for the server address
+	Connect("127.0.0.1");
 
 	// how fast in pixels per second we can move
 	// NOTE : the server should send us all this data in a real game

@@ -39,7 +39,7 @@
 #include "raymath.h"
 
 // Connect to the server (localhost by default)
-void Connect();
+void Connect(const char* serverAddress);
 
 // Process one frame of updates
 void Update(double now, float deltaT);

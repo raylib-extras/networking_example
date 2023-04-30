@@ -82,7 +82,7 @@ typedef struct
 RemotePlayer Players[MAX_PLAYERS] = { 0 };
 
 // Connect to a server
-void Connect()
+void Connect(const char* serverAddress)
 {
 	// startup the network library
 	enet_initialize();
@@ -91,7 +91,7 @@ void Connect()
 	client = enet_host_create(NULL, 1, 1, 0, 0);
 
 	// set the address and port we will connect to
-	enet_address_set_host(&address, "127.0.0.1");
+	enet_address_set_host(&address, serverAddress);
 	address.port = 4545;
 
 	// start the connection process. Will be finished as part of our update
