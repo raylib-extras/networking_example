@@ -81,14 +81,14 @@ workspace (workspaceName)
         startproject(workspaceName)
     end
 
-    cdialect "C99"
+    cdialect "C11"
     cppdialect "C++17"
 check_raylib();
 
 include ("raylib_premake5.lua")
 
-if(os.isdir("game")) then
-    include ("game")
+if(os.isdir("client")) then
+    include ("client")
 end
 
 folders = os.matchdirs("*")

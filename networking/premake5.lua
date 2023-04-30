@@ -15,5 +15,4 @@ project (baseName)
 
     includedirs { "./" }
     includedirs { "./include" }
-	
-	include_raylib()
+    include_raylib()

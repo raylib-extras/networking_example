@@ -1,111 +1,96 @@
-# Raylib Setup using Premake5
-This is a simplified set of instructions for how to setup a project using premake.
+# Raylib Networking Example
+A simple example of how to do networking using raylib and enet.
 
-## Video Tutorial
-A video covering this process is here
-https://youtu.be/--gI9083QnU
+* Raylib can be found at https://github.com/raysan5/raylib, but is a subnet module for this repository
+* Enet can be found at https://github.com/zpl-c/enet but is also included in this repository
 
-# Download this repository
-Download the game premake repository from 
-https://github.com/raylib-extras/game-premake/
-You can either download the zip file, or clone the repository.
-If you clone the repository, you may want to remove the stored history. Simply delete the .git directory to do this.
+## About
+This is a simple client/server networking demo that allows up to 8 players to connect to a server and move boxes around a fixed size area. It is written in Pure C using Raylib for graphics and window setup and the ZPL-C version of enet for networking.
 
-Rename the directory whatever you want. This will be the name of your game.
+When a client is started it will attempt to connect to the server (on localhost by default). Once conncected it will spawn a player with a peset color that the client can move around with the arrow keys. Different colored player objects for other clients will be shown in the window, updating with the respective client. Each client maintains a local simulation state that represents the gameplay state that it is aware of. The server also maintains a state of the last known positon of each connected player.
 
-#(OPTIONAL) Get Raylib
-If you wish to use a specific version of raylib, follow the instructions below. If you want the current development version, skip this section and premake will download raylib for you.
+### Notes
+This example is not a robust networking system and is only intended as a simple example of how to setup a basic client/server system. Game networking is a very complex subject with many subtle nuances. Networking is not something that can just be attached to a single player game. A game needs to be built with networking in mind from the ground up. Even in this simple example, the core gameplay system is built into the networking layer, not the main application. Network games must be designed to take latency and data loss into account. If your game relies on every player having the exact same gamestate at the same time, then it will not work well in a network environment.
 
-## Download Raylib
-Get the raylib sources from 
-https://github.com/raysan5/raylib
-Download the zip file, or clone the repository. It doesn't matter what one you use.
-Put the raylib sources in a folder called raylib inside your game folder (The same folder this file is in). The folder must be named raylib, it can not be raylib-master. The raylib folder should contain all the sources from raylib (including the 'src' folder)
+Different network setups are required for different kinds of games. For good networking you will need to research the best solution for game type. For action games a good place to start the articiles below.
+* https://gafferongames.com/categories/game-networking/
+* https://developer.valvesoftware.com/wiki/Source_Multiplayer_Networking
+* https://developer.valvesoftware.com/wiki/Lag_compensation
+* https://developer.valvesoftware.com/wiki/Latency_Compensating_Methods_in_Client/Server_In-game_Protocol_Design_and_Optimization
 
-# Example app
-This repository is pre-populated wit the raylib game template. It is a great starting point for your game.
-https://github.com/raysan5/raylib-game-template
 
-If you want to have a different starting point, simply replace the files in the game folder with your own files.
+## Building
+Uses game-premake https://github.com/raylib-extras/game-premake
 
-## Using C++
-By default this process is setup to build a project using C. If you want to use C++, you can replace your files with you own cpp files. There is is a simple C++ file in the _app dir. The raylib template is designed for C, not C++, but the version in this repository has been modified to work as C++ if you choose to rename the files.
+### Windows MinGW
+Run the premake-mingw.bat and then run make in the folder
 
-# Generate Projects
-For windows users, there are two batch files you can use depending on what compiler you are using. For linux users you can simply use a terminal.
-Only do ONE of these options depending on your compiler and platform.
-## Windows Users
-Visual Studio users should run
+### Windows Visual Studio (not VSC)
+Run premake-VisualStudio.bat and then open the fasteroids.sln that is generated
 
-    premake-VisualStudio.bat
+### Linux
+CD into the directory, run ./premake5 gmake2 and then run make
+
+#### MacOS
+CD into the directory, run ./premake5.osx gmake2 and then run make
+
+## Code Overview
+
+### NetCommon
+A libary containing common networking functions and constants used by both client and server
+
+### Server
+The server is entirely contained within the server.c file. It is very simple and just runs a loop looking for network events. When a player connects, disconnects or sends data, the server responds to the event, updates an internal player list, and sends out required updates to other players.
+
+### Client
+The client is broken up into 3 files
+* client.c
+* net_client.h
+* net_client.c
+
+#### client.c
+The main file is where the normal raylib window is setup, input is checked and the game is drawn. Every frame the input is checked, the player is updated and the field is drawn with all players on it.
+
+Due to conflicts between raylib and windows.h, it is not possible to include networking in the same source files as raylib. For this reason the gameplay and networking systems are put into a seperate file and accessed via an interface header.
+
+#### net_client.h
+This is the interface between the network gameplay system and the main game application. It exists to keep raylib and windows files seperate. It contains defintions of all the functions and constants that are needed by the main game to run the game. Because raymath.h does not conflict with windows.h, the networking.h file includes raymath in order to use raylib structures, such as Vector2
+
+#### net_client.c
+This is the implementation file for the network gameplay system. It uses enet to create a client connection to the server and keep the local simulation up to date. It sends out the local player's position 20 times a second using a server tick clock. This prevents the network from being overloaded with updates with every drawn frame and different update rates for players with different frame rates.
+
+## Network Commands
+All network iformation is sent as commands. Commands are encoded into the network packet as a single byte, allowing up to 255 different commands. The command tells the receiving system what kind of data will be in the packet and what the requested action is.
+
+## Packet Data
+In this example network data is packaged up in the native format for the sending computer. This means that computers with different byte ordering (https://en.wikipedia.org/wiki/Endianness) can not communicate with each other. A real game would encode all data into Network Byte Order on send and decode on receive.
+
+## Example Data Flow
+
+Client -> Server
+Client startup and connects to server.
+
+Server receives connection request and allocates a player ID for the new user
+	If the server is full the new player is rejected.
 	
-This will generate a Visual Studio project.
-	
-## MinGW-w64 Users
-Please make sure you have a recent version of MinGW-W64. The older versons from mingw.org will not work.
-We recomend the W64Devkit. I thas everything needed to build raylib. I can be downloaded from here https://github.com/skeeto/w64devkit/releases
+Server -> Client
+Server sends Acccept messaage back to player with player ID
+Server sends Add Player message for all existing players to new player
 
-Once you have MinGW-W64
-Run the batch file.
+Client receives accept message
+Client adds self to player list and marks connection as active
+Client gameplay loop starts polling for local player input
 
-    premake-mingw.bat
+Client receives Add Player messages and updates local simulation state
 
-This will generate a makefile for you
-	
-## Linux users
-cd to the game folder and run
+Every frame on the client, input is polled and a new local player position is updated in the local simulation.
 
-    ./premake5 gmake2
+Client -> Server
+Every network tick (1/20th of a second), the local player's location is sent as an input update to the server.
 
-This will generate a makefile for you.
+Server -> Client
+When the server receiives an input update, it updates the server game state with the new position and sends an Update Player message to all players.
 
-## macOS users
-cd to the game folder and run
+As clients receive update messages they set the local simulation to match the last known location of each remote player.
 
-    ./premake5.osx gmake2
-	
-This will generate a makefile for you.
 
-# Build your game
-Only do ONE of these options depending on your compiler and platform.
-## Windows Users
-Double click the .sln file that was generated in the folder. From here you can use the project as normal.
-	
-## MinGW-w64 Users
-Open your compiler terminal (w64devkit if you are using it), change to the game folder and type 
-
-    make
-	
-This will build your game
-	
-## Linux/macOS users
-Open your terminal, change to the game folder and type.
-
-    make
-	
-This will build your starting game template
-	
-	
-# Building for other OpenGL targets
-If you need to build for a different OpenGL version than the default (OpenGL 3.3) you can specify an openGL version in your premake command line. Just modify the bat file or add the following to your command line
-
-## For OpenGL 1.1
---graphics=opengl11
-
-## For OpenGL 2.1
---graphics=opengl21
-
-## For OpenGL 4.3
---graphics=opengl43
-
-# Building extra libs
-If you need to add a separate library to your game you can do that very easily.
-Simply copy the _lib folder and rename it to what you want your lib to be called.
-Replace lib.c with the sources for your library (just copy them in the folder).
-If you library has an include folder, copy that too.
-Then go to the premake5.lua file in the game folder, and link your library by calling link_to with the folder name for the library.
-
-link_to("LIB_FOLDER_NAME")
-
-Rerun premake and it will build your library for you.
-Note that by default link_to will add include dirs for your library folder and library/include. If you have other include needs you will have to add those to your premake file manually.
