@@ -100,7 +100,7 @@ int main()
 		else if (connected)
 		{
 			// we got disconnected, try to connect again
-			Connect();
+			Connect("127.0.0.1");
 			connected = false;
 		}
 
