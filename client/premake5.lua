@@ -13,6 +13,9 @@ project (baseName)
 		kind "WindowedApp"
 		entrypoint "mainCRTStartup"
 		
+    filter "system:windows"
+        defines{"_WIN32"}
+        links {"ws2_32"}
     filter{}
 
     vpaths 
