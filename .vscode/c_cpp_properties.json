@@ -4,7 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/raylib-master/src/",
-                "${workspaceFolder}/game/**"
+                "${workspaceFolder}/server/**",
+                "${workspaceFolder}/client/**",
+                "${workspaceFolder}/networking/**"
             ],
             "defines": [
                 "_DEBUG",

@@ -5,7 +5,7 @@
         "version": "0.2.0",
         "configurations": [
           {
-            "name": "Debug",
+            "name": "Debug Client",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/Debug/client.exe",
@@ -35,7 +35,7 @@
             "preLaunchTask": "build debug"
           },
           {
-            "name": "Run",
+            "name": "Run Client",
             "type": "cppdbg",
             "request": "launch",
             "args": [],
@@ -58,6 +58,36 @@
               "miDebuggerPath": "/usr/bin/gdb"
             },
             "preLaunchTask": "build release",
+          },
+          {
+            "name": "Debug Server",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/server.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+              {
+                "description": "Enable pretty-printing for gdb",
+                "text": "-enable-pretty-printing",
+                "ignoreFailures": false
+              }
+            ],
+            "windows": {
+              "miDebuggerPath": "gdb.exe",
+            },
+            "osx": {
+              "MIMode": "lldb"
+            },
+            "linux": {
+              "program": "${workspaceFolder}/bin/Debug/server",
+              "miDebuggerPath": "/usr/bin/gdb",
+            },
+            "preLaunchTask": "build debug"
           }
         ]
       }
