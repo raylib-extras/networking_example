@@ -3,8 +3,8 @@ baseName = path.getbasename(os.getcwd());
 
 project (baseName)
     kind "ConsoleApp"
-    location "../_build"
-    targetdir "../_bin/%{cfg.buildcfg}"
+    location "../build"
+    targetdir "../bin/%{cfg.buildcfg}"
 
     filter "action:vs*"
         defines{"_WINSOCK_DEPRECATED_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS"}
