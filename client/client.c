@@ -38,7 +38,7 @@
 #include "net_constants.h"
 
 // a list of predefined colors based on the player lost
-Color PlayerColors[MAX_PLAYERS] = { 0 };
+static Color PlayerColors[MAX_PLAYERS] = { 0 };
 
 void SetColors()
 {
@@ -52,35 +52,69 @@ void SetColors()
 	PlayerColors[7] = ORANGE;
 }
 
-// main game client
-int main()
+typedef enum GameState
 {
-	SetColors();
+	Connecting,
+	Playing,
+	Disconnecting,
+	Disconnected,
+}GameState;
 
-	// set up raylib
-	InitWindow(FieldSizeWidth, FieldSizeHeight, "Client");
-	SetTargetFPS(60);
+static GameState State = Disconnected;
 
-	// start network connection
-	bool connected = false;
+static bool RunGame = true;
 
-	// if you want to connect to a server on another machine, change this, or ask the user for the server address
-	Connect("127.0.0.1");
+static void Quit()
+{
+	RunGame = false;
+}
 
-	// how fast in pixels per second we can move
-	// NOTE : the server should send us all this data in a real game
-	float moveSpeed = 200;
+// how fast in pixels per second we can move
+// NOTE : the server should send us all this data in a real game
+static float MoveSpeed = 200; 
 
-	while (!WindowShouldClose())
+void UpdateGame()
+{
+	// let the network game system update
+	// this will process any inbound events and update the local simulation
+	Update(GetTime(), GetFrameTime());
+
+	switch (State)
 	{
-		// if we are connected, process our input for the network game play system
-		if (Connected())
-		{
-			connected = true;
+	case Disconnected:
+		Quit();
+	default:
+		break;
 
+	case Connecting:
+		if (Connected() && GetLocalPlayerId() >= 0)
+			State = Playing;
+
+		break;
+
+	case Disconnecting:
+		if (!Connected())
+		{
+			State = Disconnected;
+		}
+		break;
+
+	case Playing:
+		if (WindowShouldClose())
+		{
+			Disconnect();
+			State = Disconnecting;
+		}else if (!Connected())
+		{
+			// we got booted, reconnect
+			Connect("127.0.0.1");
+			State = Connecting;
+		}
+		else
+		{
 			// cache of the incremental amount we are going to move this frame
 			Vector2 movement = { 0 };
-			float speed = moveSpeed;
+			float speed = MoveSpeed;
 
 			// see what axes we move in
 			if (IsKeyDown(KEY_UP))
@@ -97,46 +131,71 @@ int main()
 			// it will update the local simulation and cache the data until the next network tick time
 			UpdateLocalPlayer(&movement, GetFrameTime());
 		}
-		else if (connected)
-		{
-			// we got disconnected, try to connect again
-			Connect("127.0.0.1");
-			connected = false;
-		}
+		break;
+	}
+}
 
-		// let the network game system update
-		// this will process any inbound events and update the local simulation
-		Update(GetTime(), GetFrameTime());
+void DrawGame()
+{
+
+	switch (State)
+	{
+	case Disconnected:
+	default:
+		DrawText("Disconnected", 0, 20, 20, RED);
+		break;
+
+	case Connecting:
+		DrawText("Connecting...", 0, 20, 20, DARKGREEN);
+		break;
+
+	case Disconnecting:
+		DrawText("Disconnecting from server...", 0, 20, 20, MAROON);
+		break;
+
+	case Playing:
+		// we are connected, and know what our player ID is, so show that to the player in our color
+		DrawText(TextFormat("Player %d", GetLocalPlayerId()), 0, 20, 20, PlayerColors[GetLocalPlayerId()]);
+
+		// draw all active players, this includes our local player since the game system is maintaining the local simulation
+		for (int i = 0; i < MAX_PLAYERS; i++)
+		{
+			Vector2 pos = { 0 };
+			if (GetPlayerPos(i, &pos))
+			{
+				DrawRectangle((int)pos.x, (int)pos.y, PlayerSize, PlayerSize, PlayerColors[i]);
+			}
+		}
+		break;
+	}
+}
+
+// main game client
+int main()
+{
+	SetColors();
+
+	// set up raylib
+	InitWindow(FieldSizeWidth, FieldSizeHeight, "Client");
+	SetTargetFPS(60);
+
+	// if you want to connect to a server on another machine, change this, or ask the user for the server address
+	Connect("127.0.0.1");
+	State = Connecting;
+
+	while (RunGame)
+	{
+		UpdateGame();
 
 		// draw our game screen
 		BeginDrawing();
 		ClearBackground(BLACK);
 
-		if (!Connected())
-		{
-			// we are not connected, so just wait until we are, this can take some time
-			DrawText("Connecting", 0, 20, 20, RED);
-		}
-		else
-		{
-			// we are connected, and know what our player ID is, so show that to the player in our color
-			DrawText(TextFormat("Player %d", GetLocalPlayerId()), 0, 20, 20, PlayerColors[GetLocalPlayerId()]);
+		DrawGame();
 
-			// draw all active players, this includes our local player since the game system is maintaining the local simulation
-			for (int i = 0; i < MAX_PLAYERS; i++)
-			{
-				Vector2 pos = { 0 };
-				if (GetPlayerPos(i, &pos))
-				{
-					DrawRectangle((int)pos.x, (int)pos.y, PlayerSize, PlayerSize, PlayerColors[i]);
-				}
-			}
-		}
 		DrawFPS(0, 0);
 		EndDrawing();
 	}
-	// cleanup
-	Disconnect();
 	CloseWindow();
 
 	return 0;

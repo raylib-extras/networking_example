@@ -56,6 +56,8 @@ double InputUpdateInterval = 1.0f / 20.0f;
 
 double LastNow = 0;
 
+bool WantDisconnect = false;
+
 // Data about players
 typedef struct
 {
@@ -84,6 +86,9 @@ RemotePlayer Players[MAX_PLAYERS] = { 0 };
 // Connect to a server
 void Connect(const char* serverAddress)
 {
+	if (WantDisconnect)
+		return;
+
 	// startup the network library
 	enet_initialize();
 
@@ -179,7 +184,7 @@ void Update(double now, float deltaT)
 	// we do this so that we don't spam the server with updates 60 times a second and waste bandwidth
 	// in a real game we'd send our normalized movement vector or input keys along with what the current tick index was
 	// this way the server can know how long it's been since the last update and can do interpolation to know were we are between updates.
-	if (LocalPlayerId >= 0 && now - LastInputSend > InputUpdateInterval)
+	if (!WantDisconnect && LocalPlayerId >= 0 && now - LastInputSend > InputUpdateInterval)
 	{
 		// Pack up a buffer with the data we want to send
 		uint8_t buffer[9] = { 0 }; // 9 bytes for a 1 byte command number and two bytes for each X and Y value
@@ -215,8 +220,11 @@ void Update(double now, float deltaT)
 			case ENET_EVENT_TYPE_RECEIVE:
 			{
 				// we know that all valid packets have a size >= 1, so if we get this, something is bad and we ignore it.
-				if (Event.packet->dataLength < 1)
+				if (Event.packet->dataLength < 1 || WantDisconnect)
+				{
+					enet_packet_destroy(Event.packet);
 					break;
+				}
 
 				// keep an offset of what data we have read so far
 				size_t offset = 0;
@@ -277,9 +285,23 @@ void Update(double now, float deltaT)
 
 			// we were disconnected, we have a sad
 			case ENET_EVENT_TYPE_DISCONNECT:
+			{
+				// close our client
+				if (client != NULL)
+					enet_host_destroy(client);
+
+				client = NULL;
+				server = NULL;
+
+				// clean up enet
+				enet_deinitialize();
+
 				server = NULL;
 				LocalPlayerId = -1;
-				break;
+
+				WantDisconnect = false;
+			}
+			break;
 		}
 	}
 
@@ -296,25 +318,18 @@ void Update(double now, float deltaT)
 // force a disconnect by shutting down enet
 void Disconnect()
 {
-	// close our connection to the server
+	// start to close our connection to the server
 	if (server != NULL)
+	{
+		WantDisconnect = true;
 		enet_peer_disconnect(server, 0);
-
-	// close our client
-	if (client != NULL)
-		enet_host_destroy(client);
-
-	client = NULL;
-	server = NULL;
-
-	// clean up enet
-	enet_deinitialize();
+	}
 }
 
 // true if we are connected and have been accepted
 bool Connected()
 {
-	return server != NULL && LocalPlayerId >= 0;
+	return server != NULL;
 }
 
 int GetLocalPlayerId()
