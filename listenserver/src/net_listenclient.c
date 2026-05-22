@@ -73,36 +73,27 @@ bool WantDisconnect = false;
 // Data about players
 typedef struct
 {
-	// true if the player is active and valid
-	bool Active;
-
-	// the last known location of the player on the field
-	Vector2 Position;
-
-	// the direction they were going
-	Vector2 Direction;
-
 	// the time we got the last update
 	double UpdateTime;
-
+	// the last known location of the player on the field
+	Vector2 Position;
+	// the direction they were going
+	Vector2 Direction;
 	//where we think this item is right now based on the movement vector
 	Vector2 ExtrapolatedPosition;
-
+	// health of the player
 	int Health;
+	// true if the player is active and valid
+	bool Active;
 }RemotePlayer;
 
 typedef struct {
-	bool Active;
-
-	Vector2 Position;
-
-	Vector2 Direction;
-
 	double UpdateTime;
-
+	Vector2 Position;
+	Vector2 Direction;
 	Vector2 ExtrapolatedPosition;
-
 	int ownerId;
+	bool Active;
 } RemoteBullet;
 
 // The list of all possible players
@@ -359,8 +350,10 @@ void Update(double now, float deltaT, TileType _tileArray[MAP_ROWS][MAP_COLUMNS]
 					Players[LocalPlayerId].Health = 3;
 
 					for (int attempts = 0; attempts < 1000; attempts++) {
+						// set random spawn pos
 						Vector2 spawnPos = { (rand() % FieldSizeWidth), (rand() % FieldSizeHeight) };
 
+						// check if spawn pos is a grass tile, and spawn the player there if it is
 						if (_tileArray[(int)(spawnPos.y / TILE_SIZE)][(int)(spawnPos.x / TILE_SIZE)] == TILE_TYPE_GRASS) {
 							bool isValidSpawn = true;
 

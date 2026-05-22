@@ -1,5 +1,6 @@
 ﻿  listenclient.c
   listenserver.c
+  net_listenclient.c
 C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(1880,104): warning C5287: operands are different enum types '_ENetProtocolCommand' and '_ENetProtocolFlag'; use an explicit cast to silence this warning
   (compiling source file 'src/listenserver.c')
   
@@ -27,10 +28,9 @@ C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(
 C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(4864,82): warning C5287: operands are different enum types '_ENetProtocolCommand' and '_ENetProtocolFlag'; use an explicit cast to silence this warning
   (compiling source file 'src/listenserver.c')
   
-  net_listenclient.c
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(358,12): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(362,36): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(362,63): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(349,12): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(354,36): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(354,63): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
   net_common.c
   PCG.c
 C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\PCG.c(50,38): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data

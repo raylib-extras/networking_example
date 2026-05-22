@@ -40,12 +40,6 @@
 // the info we are tracking about each player in the game
 typedef struct
 {
-	// is this player slot active
-	bool Active;
-
-	// have they sent us a valid position yet?
-	bool ValidPosition;
-
 	// the network connection they use
 	ENetPeer* Peer;
 
@@ -57,6 +51,12 @@ typedef struct
 	int16_t DY;
 
 	int16_t Health;
+
+	// is this player slot active
+	bool Active;
+
+	// have they sent us a valid position yet?
+	bool ValidPosition;
 }PlayerInfo;
 
 typedef struct {
