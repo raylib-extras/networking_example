@@ -131,21 +131,21 @@ shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\listen\listenclient.c" />
-    <ClCompile Include="..\listen\listenserver.c" />
-    <ClCompile Include="..\listen\net_listenclient.c" />
+    <ClCompile Include="src\listenclient.c" />
+    <ClCompile Include="src\listenserver.c" />
+    <ClCompile Include="src\net_listenclient.c" />
     <ClCompile Include="..\networking\net_common.c" />
-    <ClCompile Include="PCG.c" />
-    <ClCompile Include="perlin.c" />
+    <ClCompile Include="src\PCG.c" />
+    <ClCompile Include="src\perlin.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\listen\listenserver.h" />
-    <ClInclude Include="..\listen\net_listenclient.h" />
-    <ClInclude Include="PCG.h" />
-    <ClInclude Include="PCG_TYPES.h" />
-    <ClInclude Include="perlin.h" />
-    <ClInclude Include="raygui.h" />
-    <ClInclude Include="resource_dir.h" />
+    <ClInclude Include="include\listenserver.h" />
+    <ClInclude Include="include\net_listenclient.h" />
+    <ClInclude Include="include\PCG.h" />
+    <ClInclude Include="include\PCG_TYPES.h" />
+    <ClInclude Include="include\perlin.h" />
+    <ClInclude Include="include\raygui.h" />
+    <ClInclude Include="include\resource_dir.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

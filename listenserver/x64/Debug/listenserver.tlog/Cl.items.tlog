@@ -1,6 +1,6 @@
-C:\Users\iChoc\Documents\GitHub\networking_example\listen\listenclient.c;C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\x64\Debug\listenclient.obj
-C:\Users\iChoc\Documents\GitHub\networking_example\listen\listenserver.c;C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\x64\Debug\listenserver.obj
-C:\Users\iChoc\Documents\GitHub\networking_example\listen\net_listenclient.c;C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\x64\Debug\net_listenclient.obj
+C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\listenclient.c;C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\x64\Debug\listenclient.obj
+C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\listenserver.c;C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\x64\Debug\listenserver.obj
+C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c;C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\x64\Debug\net_listenclient.obj
 C:\Users\iChoc\Documents\GitHub\networking_example\networking\net_common.c;C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\x64\Debug\net_common.obj
-C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\PCG.c;C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\x64\Debug\PCG.obj
-C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\perlin.c;C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\x64\Debug\perlin.obj
+C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\PCG.c;C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\x64\Debug\PCG.obj
+C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\perlin.c;C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\x64\Debug\perlin.obj

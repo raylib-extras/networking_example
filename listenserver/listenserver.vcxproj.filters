@@ -15,45 +15,45 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\listen\listenclient.c">
+    <ClCompile Include="src\listenclient.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\listen\listenserver.c">
+    <ClCompile Include="src\listenserver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\listen\net_listenclient.c">
+    <ClCompile Include="src\net_listenclient.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\networking\net_common.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PCG.c">
+    <ClCompile Include="src\PCG.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="perlin.c">
+    <ClCompile Include="src\perlin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\listen\listenserver.h">
+    <ClInclude Include="include\listenserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\listen\net_listenclient.h">
+    <ClInclude Include="include\net_listenclient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raygui.h">
+    <ClInclude Include="include\raygui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PCG.h">
+    <ClInclude Include="include\PCG.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="perlin.h">
+    <ClInclude Include="include\perlin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource_dir.h">
+    <ClInclude Include="include\resource_dir.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PCG_TYPES.h">
+    <ClInclude Include="include\PCG_TYPES.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
