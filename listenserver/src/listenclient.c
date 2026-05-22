@@ -74,6 +74,15 @@ static GameState State = Disconnected;
 
 static bool RunGame = true;
 
+static RenderTexture2D screenTarget = { 0 };
+static Shader           shakeShader = { 0 };
+static int              shakeLoc = 0;   // uniform: shakeStrength
+static int              timeLoc = 0;   // uniform: time
+static float            shakeTimer = 0.0f;
+static float            shakeDuration = 0.3f;   // seconds the shake lasts
+static float            shakePeak = 0.012f;  // max UV offset strength
+static int              lastLocalHP = 3;
+
 static void Quit()
 {
 	RunGame = false;
@@ -139,6 +148,16 @@ void UpdateGame()
 				movement.x -= speed;
 			if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D))
 				movement.x += speed;
+
+			// Detect damage taken this frame
+			int currentHP = GetPlayerHealth(GetLocalPlayerId());
+			if (currentHP < lastLocalHP)
+				shakeTimer = shakeDuration;   // restart the shake
+			lastLocalHP = currentHP;
+
+			// Decay the shake timer
+			shakeTimer -= GetFrameTime();
+			if (shakeTimer < 0.0f) shakeTimer = 0.0f;
 
 			// tell the network game play client that we moved
 			// it will update the local simulation and cache the data until the next network tick time
@@ -219,6 +238,11 @@ int main()
 	InitWindow(FieldSizeWidth, FieldSizeHeight, "ListenClient");
 	SetTargetFPS(60);
 
+	screenTarget = LoadRenderTexture(FieldSizeWidth, FieldSizeHeight);
+	shakeShader = LoadShader(NULL, "resources/screenshake.fs");
+	shakeLoc = GetShaderLocation(shakeShader, "shakeStrength");
+	timeLoc = GetShaderLocation(shakeShader, "time");
+
 	PCG_CreateMap(tileArray);
 
 	// start listen server on separate thread
@@ -233,15 +257,28 @@ int main()
 	{
 		UpdateGame();
 
+		BeginTextureMode(screenTarget);
+			ClearBackground(BLACK);
+			DrawGame();
+			DrawFPS(0, 0);
+		EndTextureMode();
+
+		float strength = (shakeTimer / shakeDuration) * shakePeak;
+		SetShaderValue(shakeShader, shakeLoc, &strength, SHADER_UNIFORM_FLOAT);
+		float t = (float)GetTime();
+		SetShaderValue(shakeShader, timeLoc, &t, SHADER_UNIFORM_FLOAT);
+
 		// draw our game screen
 		BeginDrawing();
-		ClearBackground(BLACK);
-
-		DrawGame();
-
-		DrawFPS(0, 0);
+			ClearBackground(BLACK);
+			BeginShaderMode(shakeShader);
+				DrawTextureRec(screenTarget.texture, (Rectangle) { 0, 0, (float)FieldSizeWidth, -(float)FieldSizeHeight }, (Vector2) { 0, 0 }, WHITE);
+				EndShaderMode();
 		EndDrawing();
 	}
+
+	UnloadRenderTexture(screenTarget);
+	UnloadShader(shakeShader);
 
 	StopListenServer();
 

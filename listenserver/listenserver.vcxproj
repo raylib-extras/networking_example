@@ -147,6 +147,9 @@ shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClInclude Include="include\raygui.h" />
     <ClInclude Include="include\resource_dir.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="screenshake.fs" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
