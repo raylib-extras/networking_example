@@ -31,6 +31,8 @@
 #define WIN32_LEAN_AND_MEAN
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <windows.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "PCG_TYPES.h"
 
@@ -353,8 +355,21 @@ void Update(double now, float deltaT, TileType _tileArray[MAP_ROWS][MAP_COLUMNS]
 					// optimally we would do a much more robust connection negotiation where we tell the server what our name is, what we look like
 					// and then the server tells us where we are
 					// But for this simple test, everyone starts at the same place on the field
-					Players[LocalPlayerId].Position = (Vector2){ 100, 100 };
+					srand(time(NULL));
 					Players[LocalPlayerId].Health = 3;
+
+					for (int attempts = 0; attempts < 1000; attempts++) {
+						Vector2 spawnPos = { (rand() % FieldSizeWidth), (rand() % FieldSizeHeight) };
+
+						if (_tileArray[(int)(spawnPos.y / TILE_SIZE)][(int)(spawnPos.x / TILE_SIZE)] == TILE_TYPE_GRASS) {
+							bool isValidSpawn = true;
+
+							if (isValidSpawn) {
+								Players[LocalPlayerId].Position = spawnPos;
+								break;
+							}
+						}
+					}
 				}
 			}
 			else // we have been accepted, so process play messages from the server
