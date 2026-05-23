@@ -1,48 +1,9 @@
 ﻿  listenclient.c
+C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\listenclient.c(189,4): warning C4013: 'ConnectHost' undefined; assuming extern returning int
   listenserver.c
   net_listenclient.c
-C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(1880,104): warning C5287: operands are different enum types '_ENetProtocolCommand' and '_ENetProtocolFlag'; use an explicit cast to silence this warning
-  (compiling source file 'src/listenserver.c')
-  
-C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(3393,77): warning C5287: operands are different enum types '_ENetProtocolCommand' and '_ENetProtocolFlag'; use an explicit cast to silence this warning
-  (compiling source file 'src/listenserver.c')
-  
-C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(3559,75): warning C5287: operands are different enum types '_ENetProtocolCommand' and '_ENetProtocolFlag'; use an explicit cast to silence this warning
-  (compiling source file 'src/listenserver.c')
-  
-C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(3612,77): warning C5287: operands are different enum types '_ENetProtocolCommand' and '_ENetProtocolFlag'; use an explicit cast to silence this warning
-  (compiling source file 'src/listenserver.c')
-  
-C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(3616,74): warning C5287: operands are different enum types '_ENetProtocolCommand' and '_ENetProtocolFlag'; use an explicit cast to silence this warning
-  (compiling source file 'src/listenserver.c')
-  
-C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(3838,63): warning C5287: operands are different enum types '_ENetProtocolCommand' and '_ENetProtocolFlag'; use an explicit cast to silence this warning
-  (compiling source file 'src/listenserver.c')
-  
-C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(3897,73): warning C5287: operands are different enum types '_ENetProtocolCommand' and '_ENetProtocolFlag'; use an explicit cast to silence this warning
-  (compiling source file 'src/listenserver.c')
-  
-C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(4586,84): warning C5287: operands are different enum types '_ENetProtocolCommand' and '_ENetProtocolFlag'; use an explicit cast to silence this warning
-  (compiling source file 'src/listenserver.c')
-  
-C:\Users\s5381149\Documents\GitHub\networking_example\networking\include\enet.h(4864,82): warning C5287: operands are different enum types '_ENetProtocolCommand' and '_ENetProtocolFlag'; use an explicit cast to silence this warning
-  (compiling source file 'src/listenserver.c')
-  
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(349,12): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(354,36): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(354,63): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-  net_common.c
-  PCG.c
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\PCG.c(50,38): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\PCG.c(50,47): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-  perlin.c
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\perlin.c(34,45): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\perlin.c(55,18): warning C4554: '>>': check operator precedence for possible error; use parentheses to clarify precedence
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\perlin.c(58,18): warning C4554: '>>': check operator precedence for possible error; use parentheses to clarify precedence
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\perlin.c(64,8): warning C4013: 'sin' undefined; assuming extern returning int
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\perlin.c(64,8): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\perlin.c(65,8): warning C4013: 'cos' undefined; assuming extern returning int
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\perlin.c(65,8): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\s5381149\Documents\GitHub\networking_example\listenserver\src\perlin.c(60,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(368,12): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(373,36): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(373,63): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
   Generating Code...
-  listenserver.vcxproj -> C:\Users\s5381149\Documents\GitHub\networking_example\x64\Debug\listenserver.exe
+  listenserver.vcxproj -> C:\Users\iChoc\Documents\GitHub\networking_example\x64\Debug\listenserver.exe

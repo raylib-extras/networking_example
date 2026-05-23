@@ -42,7 +42,7 @@
 #include "net_constants.h"
 #include "PCG.h"
 
-char defaultIP[128] = "Enter IP Address";
+char defaultIP[256] = "Enter IP Address";
 bool textEditMode = false;
 
 // a list of predefined colors based on the player lost
@@ -186,7 +186,7 @@ void DrawGame()
 		if (GuiButton((Rectangle) { 0, 70, 40, 20 }, "Host")) {
 			StartListenServer();
 			WaitTime(0.1);
-			Connect("127.0.0.1");
+			ConnectHost("127.0.0.1");
 		}
 		if (GuiTextBox((Rectangle) { 0, 45, 200, 20 }, defaultIP, 20, textEditMode)) {
 			textEditMode = !textEditMode;

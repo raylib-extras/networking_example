@@ -145,6 +145,25 @@ void Connect(const char* serverAddress)
 
 	// set the address and port we will connect to
 	enet_address_set_host(&address, serverAddress);
+	address.port = 13906;
+
+	// start the connection process. Will be finished as part of our update
+	server = enet_host_connect(client, &address, 1, 0);
+}
+
+void ConnectHost(const char* serverAddress)
+{
+	if (WantDisconnect)
+		return;
+
+	// startup the network library
+	enet_initialize();
+
+	// create a client that we will use to connect to the server
+	client = enet_host_create(NULL, 1, 1, 0, 0);
+
+	// set the address and port we will connect to
+	enet_address_set_host(&address, serverAddress);
 	address.port = 4545;
 
 	// start the connection process. Will be finished as part of our update
