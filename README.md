@@ -29,10 +29,10 @@ Run the premake-mingw.bat and then run make in the folder
 Run premake-VisualStudio.bat and then open the fasteroids.sln that is generated
 
 ### Linux
-CD into the directory, run ./premake5 gmake2 and then run make
+CD into the directory, run ./premake5 gmake and then run make
 
 #### MacOS
-CD into the directory, run ./premake5.osx gmake2 and then run make
+CD into the directory, run ./premake5.osx gmake and then run make
 
 ## Code Overview
 
