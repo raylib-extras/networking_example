@@ -43,8 +43,10 @@
 #include "PCG.h"
 
 char defaultIP[256] = "Enter IP Address";
-char defaultPort[256] = "4545";
-bool textEditMode = false;
+char portStr[16] = "4545";
+uint16_t defaultPort = 4545;
+bool ipEditMode = false;
+bool portEditMode = false;
 
 // a list of predefined colors based on the player lost
 static Color PlayerColors[MAX_PLAYERS] = { 0 };
@@ -83,6 +85,10 @@ static float            shakeTimer = 0.0f;
 static float            shakeDuration = 0.3f;   // seconds the shake lasts
 static float            shakePeak = 0.012f;  // max UV offset strength
 static int              lastLocalHP = 3;
+
+static Sound bulletSFX = { 0 };
+static Sound hitSFX = { 0 };
+static Sound deathSFX = { 0 };
 
 static void Quit()
 {
@@ -152,8 +158,13 @@ void UpdateGame()
 
 			// Detect damage taken this frame
 			int currentHP = GetPlayerHealth(GetLocalPlayerId());
-			if (currentHP < lastLocalHP)
-				shakeTimer = shakeDuration;   // restart the shake
+			if (currentHP < lastLocalHP) {
+				shakeTimer = shakeDuration;
+				PlaySound(hitSFX);
+			}
+			else if (currentHP <= 0) {
+				PlaySound(deathSFX);
+			}
 			lastLocalHP = currentHP;
 
 			// Decay the shake timer
@@ -166,6 +177,7 @@ void UpdateGame()
 
 			if (IsMouseButtonPressed(0)) {
 				SpawnLocalBullet(GetMousePosition());
+				PlaySound(bulletSFX);
 			}
 		}
 		break;
@@ -196,14 +208,11 @@ void DrawGame()
 			ConnectHost("127.0.0.1");
 		}
 		DrawText("Join Game", ((FieldSizeWidth / 2) - MeasureText("Join Game", 20) / 2), (FieldSizeHeight / 2 + 130), 20, BLACK);
-		if (GuiTextBox((Rectangle) { FieldSizeWidth / 2 - 100, FieldSizeHeight / 2 + 150, 200, 20 }, defaultIP, 20, textEditMode)) {
-			textEditMode = !textEditMode;
+		if (GuiTextBox((Rectangle) { FieldSizeWidth / 2 - 100, FieldSizeHeight / 2 + 150, 200, 20 }, defaultIP, 20, ipEditMode)) {
+			ipEditMode = !ipEditMode;
 		}
-		if (GuiTextBox((Rectangle) { FieldSizeWidth / 2 - 100, FieldSizeHeight / 2 + 170, 200, 20 }, defaultPort, 20, textEditMode)) {
-			textEditMode = !textEditMode;
-		}
-		if (GuiButton((Rectangle) { FieldSizeWidth / 2 - 40, FieldSizeHeight / 2 + 190, 80, 20 }, "Join") && strlen(defaultIP) > 0 && strlen(defaultPort) > 0) {
-			Connect(defaultIP, defaultPort);
+		if (GuiButton((Rectangle) { FieldSizeWidth / 2 - 40, FieldSizeHeight / 2 + 170, 80, 20 }, "Join") && strlen(defaultIP) > 0) {
+				Connect(defaultIP);
 		}
 		break;
 
@@ -247,12 +256,17 @@ int main()
 
 	// set up raylib
 	InitWindow(FieldSizeWidth, FieldSizeHeight, "ListenClient");
+	InitAudioDevice();
 	SetTargetFPS(60);
 
 	screenTarget = LoadRenderTexture(FieldSizeWidth, FieldSizeHeight);
 	shakeShader = LoadShader(NULL, "resources/screenshake.fs");
 	shakeLoc = GetShaderLocation(shakeShader, "shakeStrength");
 	timeLoc = GetShaderLocation(shakeShader, "time");
+
+	bulletSFX = LoadSound("resources/bullet.wav");
+	hitSFX = LoadSound("resources/hit.wav");
+	deathSFX = LoadSound("resources/death.wav");;
 
 	// start listen server on separate thread
 	//StartListenServer();
@@ -288,9 +302,13 @@ int main()
 
 	UnloadRenderTexture(screenTarget);
 	UnloadShader(shakeShader);
+	UnloadSound(bulletSFX);
+	UnloadSound(hitSFX);
+	UnloadSound(deathSFX);
 
 	StopListenServer();
 
+	CloseAudioDevice();
 	CloseWindow();
 
 	return 0;

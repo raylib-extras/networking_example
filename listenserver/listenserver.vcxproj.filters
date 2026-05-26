@@ -33,7 +33,7 @@
     <ClCompile Include="src\perlin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="open_dialog.c">
+    <ClCompile Include="src\open_dialog.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,7 +59,7 @@
     <ClInclude Include="include\PCG_TYPES.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="open_dialog.h">
+    <ClInclude Include="include\open_dialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -67,5 +67,16 @@
     <None Include="screenshake.fs">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\..\..\..\Downloads\bullet.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\..\..\..\Downloads\death.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\..\..\..\Downloads\hit.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

@@ -2,8 +2,8 @@
 
 // some network functions require these vars, but enet/winsock don't like raylib, so we can't include PCG.h
 
-#define SCREEN_WIDTH  1280
-#define SCREEN_HEIGHT 800
+#define SCREEN_WIDTH  1920
+#define SCREEN_HEIGHT 1080
 #define TILE_SIZE     64
 #define NOISE_SCALE   3.0f
 

@@ -131,7 +131,7 @@ shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="open_dialog.c" />
+    <ClCompile Include="src\open_dialog.c" />
     <ClCompile Include="src\listenclient.c" />
     <ClCompile Include="src\listenserver.c" />
     <ClCompile Include="src\net_listenclient.c" />
@@ -147,10 +147,15 @@ shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClInclude Include="include\perlin.h" />
     <ClInclude Include="include\raygui.h" />
     <ClInclude Include="include\resource_dir.h" />
-    <ClInclude Include="open_dialog.h" />
+    <ClInclude Include="include\open_dialog.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="screenshake.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\..\..\..\Downloads\bullet.wav" />
+    <Media Include="..\..\..\..\Downloads\death.wav" />
+    <Media Include="..\..\..\..\Downloads\hit.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
