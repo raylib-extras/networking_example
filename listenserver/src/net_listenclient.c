@@ -132,7 +132,7 @@ void StopListenServer() {
 }
 
 // Connect to a server
-void Connect(const char* serverAddress)
+void Connect(const char* serverAddress, const char* serverPort)
 {
 	if (WantDisconnect)
 		return;
@@ -145,7 +145,7 @@ void Connect(const char* serverAddress)
 
 	// set the address and port we will connect to
 	enet_address_set_host(&address, serverAddress);
-	address.port = 13906;
+	address.port = serverPort;
 
 	// start the connection process. Will be finished as part of our update
 	server = enet_host_connect(client, &address, 1, 0);

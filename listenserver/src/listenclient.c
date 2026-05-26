@@ -43,6 +43,7 @@
 #include "PCG.h"
 
 char defaultIP[256] = "Enter IP Address";
+char defaultPort[256] = "4545";
 bool textEditMode = false;
 
 // a list of predefined colors based on the player lost
@@ -129,7 +130,7 @@ void UpdateGame()
 		else if (!Connected())
 		{
 			// we got booted, reconnect
-			Connect(defaultIP);
+			Connect(defaultIP, defaultPort);
 			State = Connecting;
 		}
 		else
@@ -183,16 +184,26 @@ void DrawGame()
 
 	case Connecting:
 		DrawText("Connecting...", 0, 20, 20, DARKGREEN);
-		if (GuiButton((Rectangle) { 0, 70, 40, 20 }, "Host")) {
+		DrawText("TANK2600", ((FieldSizeWidth / 2) - MeasureText("TANK2600", 50) / 2), FieldSizeHeight / 2, 50, BLACK);
+		DrawText("Map Select", ((FieldSizeWidth / 2) - MeasureText("Map Select", 20) / 2), (FieldSizeHeight / 2 + 50), 20, BLACK);
+		if (GuiButton((Rectangle) { FieldSizeWidth / 2 - 40, FieldSizeHeight / 2 + 70, 80, 20 }, "Load Map")) {
+			PCG_LoadMapData(tileArray, "pcg_map_data.fyl");
+		}
+		DrawText("Host Game", ((FieldSizeWidth / 2) - MeasureText("Host Game", 20) / 2), (FieldSizeHeight / 2 + 90), 20, BLACK);
+		if (GuiButton((Rectangle) { FieldSizeWidth/2 - 40, FieldSizeHeight/2 + 110, 80, 20 }, "Host")) {
 			StartListenServer();
 			WaitTime(0.1);
 			ConnectHost("127.0.0.1");
 		}
-		if (GuiTextBox((Rectangle) { 0, 45, 200, 20 }, defaultIP, 20, textEditMode)) {
+		DrawText("Join Game", ((FieldSizeWidth / 2) - MeasureText("Join Game", 20) / 2), (FieldSizeHeight / 2 + 130), 20, BLACK);
+		if (GuiTextBox((Rectangle) { FieldSizeWidth / 2 - 100, FieldSizeHeight / 2 + 150, 200, 20 }, defaultIP, 20, textEditMode)) {
 			textEditMode = !textEditMode;
 		}
-		if (GuiButton((Rectangle) { 45, 70, 40, 20}, "Join") && strlen(defaultIP) > 0) {
-			Connect(defaultIP);
+		if (GuiTextBox((Rectangle) { FieldSizeWidth / 2 - 100, FieldSizeHeight / 2 + 170, 200, 20 }, defaultPort, 20, textEditMode)) {
+			textEditMode = !textEditMode;
+		}
+		if (GuiButton((Rectangle) { FieldSizeWidth / 2 - 40, FieldSizeHeight / 2 + 190, 80, 20 }, "Join") && strlen(defaultIP) > 0 && strlen(defaultPort) > 0) {
+			Connect(defaultIP, defaultPort);
 		}
 		break;
 
@@ -243,8 +254,6 @@ int main()
 	shakeLoc = GetShaderLocation(shakeShader, "shakeStrength");
 	timeLoc = GetShaderLocation(shakeShader, "time");
 
-	PCG_CreateMap(tileArray);
-
 	// start listen server on separate thread
 	//StartListenServer();
 	//WaitTime(0.1);
@@ -258,7 +267,7 @@ int main()
 		UpdateGame();
 
 		BeginTextureMode(screenTarget);
-			ClearBackground(BLACK);
+			ClearBackground(GRASS_COLOR);
 			DrawGame();
 			DrawFPS(0, 0);
 		EndTextureMode();
@@ -270,7 +279,7 @@ int main()
 
 		// draw our game screen
 		BeginDrawing();
-			ClearBackground(BLACK);
+			ClearBackground(GRASS_COLOR);
 			BeginShaderMode(shakeShader);
 				DrawTextureRec(screenTarget.texture, (Rectangle) { 0, 0, (float)FieldSizeWidth, -(float)FieldSizeHeight }, (Vector2) { 0, 0 }, WHITE);
 				EndShaderMode();

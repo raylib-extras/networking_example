@@ -41,7 +41,7 @@
 #include "raymath.h"
 
 // Connect to the server (localhost by default)
-void Connect(const char* serverAddress);
+void Connect(const char* serverAddress, const char* serverPort);
 
 // Process one frame of updates
 void Update(double now, float deltaT, TileType _tileArray[MAP_ROWS][MAP_COLUMNS]);

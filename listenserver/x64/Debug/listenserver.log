@@ -1,9 +1,3 @@
 ﻿  listenclient.c
-C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\listenclient.c(189,4): warning C4013: 'ConnectHost' undefined; assuming extern returning int
-  listenserver.c
-  net_listenclient.c
-C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(368,12): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(373,36): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\net_listenclient.c(373,63): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
+C:\Users\iChoc\Documents\GitHub\networking_example\listenserver\src\listenclient.c(196,4): warning C4013: 'ConnectHost' undefined; assuming extern returning int
   listenserver.vcxproj -> C:\Users\iChoc\Documents\GitHub\networking_example\x64\Debug\listenserver.exe

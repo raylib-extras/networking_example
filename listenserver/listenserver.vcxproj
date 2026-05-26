@@ -131,6 +131,7 @@ shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="open_dialog.c" />
     <ClCompile Include="src\listenclient.c" />
     <ClCompile Include="src\listenserver.c" />
     <ClCompile Include="src\net_listenclient.c" />
@@ -146,6 +147,7 @@ shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClInclude Include="include\perlin.h" />
     <ClInclude Include="include\raygui.h" />
     <ClInclude Include="include\resource_dir.h" />
+    <ClInclude Include="open_dialog.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="screenshake.fs" />

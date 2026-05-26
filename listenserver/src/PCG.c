@@ -115,20 +115,25 @@ char GetTileChar(TileType tileType) {
     }
     fclose(file);
     printf("Map saved successfully to: %s\n", filePath);
-}
+} */
 
 // =============================================
 // PCG_LoadMapData
 // =============================================
 void PCG_LoadMapData(TileType _tileArray[MAP_ROWS][MAP_COLUMNS], const char* fileName) {
-    FILE* file = fopen(fileName, "r");
+    char filePath[260] = "";
+
+    if (!ShowOpenDialog(filePath, sizeof(filePath), fileName)) {
+        printf("Open cancelled.\n");
+        return;
+    }
+
+    FILE* file = fopen(filePath, "r");
     if (file == NULL) {
         printf("Error opening file for reading: %s\n", fileName);
         return;
     }
 
-    // Read offsets from the first line
-    fscanf(file, "%f %f\n", &s_offsetX, &s_offsetY);
 
     for (int y = 0; y < MAP_ROWS; y++) {
         for (int x = 0; x < MAP_COLUMNS; x++) {
@@ -147,7 +152,7 @@ void PCG_LoadMapData(TileType _tileArray[MAP_ROWS][MAP_COLUMNS], const char* fil
     }
     fclose(file);
 }
-
+/*
 // =============================================
 // PCG_DrawGUI
 // =============================================
