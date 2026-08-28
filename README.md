@@ -9,7 +9,7 @@ A simple example of how to do networking using raylib and enet.
 
 This is a simple client/server networking demo that allows up to 8 players to connect to a server and move boxes around a fixed size area. It is written in Pure C using Raylib for graphics/windowing and the ZPL-C version of enet for networking.
 
-When a client is started it will attempt to connect to the server (on localhost by default). Once conncected it will spawn a player with a preset color that the client can move around with the arrow keys. Different colored player objects for other clients will be shown in the window, updating with the respective client. Each client maintains a local simulation state that represents the gameplay state that it is aware of. The server also maintains a state of the last known positon of each connected player.
+When a client is started it will attempt to connect to the server (on localhost by default). Once connected it will spawn a player with a preset color that the client can move around with the arrow keys. Different colored player objects for other clients will be shown in the window, updating with the respective client. Each client maintains a local simulation state that represents the gameplay state that it is aware of. The server also maintains a state of the last known positon of each connected player.
 
 ### Notes
 
